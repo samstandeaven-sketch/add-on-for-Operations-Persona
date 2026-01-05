@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Your Aircall Solution</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #012635;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 600px;
+            min-height: 550px;
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: #012635;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 15px;
+        }
+
+        .progress-bar {
+            background: #e9ecef;
+            height: 4px;
+            border-radius: 2px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: #00BD82;
+            height: 100%;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .question-card { display: none; flex-grow: 1; }
+        .question-card.active { display: block; }
+
+        .question-card h3 {
+            color: #012635;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .option:hover {
+            border-color: #00BD82;
+            background: rgba(0,189,130,0.05);
+        }
+
+        div[id^="q2_"] .option {
+            background-color: #f1f3f8;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: #6c757d;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .result-card {
+            display: none;
+            color: white;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            height: 100%;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .result-card.active { display: flex; }
+
+        .bg-ai-assist-pro { background: #012635; }
+        .bg-ai-assist { background: #005ABB; }
+        .bg-analytics { background: #6955DA; }
+        .bg-voice { background: #3086EE; }
+
+        .value-box {
+            background: rgba(255,255,255,0.15);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .restart-btn {
+            background: white;
+            color: #012635;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 20px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header" id="mainHeader">
+        <h1>Find Your Aircall Solution</h1>
+        <p>Select your biggest operational challenge</p>
+    </div>
+
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <button class="back-btn" id="backBtn" onclick="goBack()">← Back</button>
+
+    <!-- Q1 – Challenges -->
+    <div class="question-card active" id="q1">
+        <h3>What’s your biggest challenge right now?</h3>
+        <div class="options">
+            <div class="option" onclick="nextQuestion('q2_data', 50)">
+                Disconnected systems creating unreliable data
+            </div>
+            <div class="option" onclick="nextQuestion('q2_cx', 50)">
+                Frustrated customer experience
+            </div>
+            <div class="option" onclick="nextQuestion('q2_tasks', 50)">
+                Repetitive low-impact tasks
+            </div>
+            <div class="option" onclick="nextQuestion('q2_insights', 50)">
+                Lack of insights to improve operations
+            </div>
+        </div>
+    </div>
+
+    <!-- Q2 – Data -->
+    <div class="question-card" id="q2_data">
+        <h3>How do you want to fix data reliability?</h3>
+        <div class="options">
+            <div class="option" onclick="showResult('ai_assist')">
+                Automate CRM / Helpdesk call logging
+            </div>
+            <div class="option" onclick="showResult('ai_assist')">
+                Automatically generate transcripts & call summaries
+            </div>
+            <div class="option" onclick="showResult('ai_assist_pro')">
+                Improve handover process adoption between teams
+            </div>
+        </div>
+    </div>
+
+    <!-- Q2 – Customer Experience -->
+    <div class="question-card" id="q2_cx">
+        <h3>How do you want to improve customer experience?</h3>
+        <div class="options">
+            <div class="option" onclick="showResult('voice_agent')">
+                Reduce average caller time in IVR
+            </div>
+            <div class="option" onclick="showResult('ai_assist_pro')">
+                Hold instantly personalised conversations
+            </div>
+            <div class="option" onclick="showResult('ai_assist')">
+                Uncover caller sentiment & trends
+            </div>
+        </div>
+    </div>
+
+    <!-- Q2 – Tasks -->
+    <div class="question-card" id="q2_tasks">
+        <h3>Which tasks do you want to automate?</h3>
+        <div class="options">
+            <div class="option" onclick="showResult('ai_assist')">
+                Automate post-call actions like email follow-ups
+            </div>
+            <div class="option" onclick="showResult('voice_agent')">
+                Automate inbound “update” calls related to FAQs
+            </div>
+        </div>
+    </div>
+
+    <!-- Q2 – Insights -->
+    <div class="question-card" id="q2_insights">
+        <h3>What insights do you need?</h3>
+        <div class="options">
+            <div class="option" onclick="showResult('analytics_plus')">
+                Advanced filtering & drill-down to assess call outcomes
+            </div>
+            <div class="option" onclick="showResult('analytics_plus')">
+                Visibility into abandonment rates, queue time & average talk time
+            </div>
+        </div>
+    </div>
+
+    <!-- Results -->
+    <div class="result-card bg-ai-assist" id="ai_assist">
+        <h3>AI Assist</h3>
+        <div class="value-box">Automate call logging, summaries and post-call actions.</div>
+        <button class="restart-btn" onclick="restart()">Go back</button>
+    </div>
+
+    <div class="result-card bg-ai-assist-pro" id="ai_assist_pro">
+        <h3>AI Assist Pro</h3>
+        <div class="value-box">Deliver personalised conversations and smoother team handovers.</div>
+        <button class="restart-btn" onclick="restart()">Go back</button>
+    </div>
+
+    <div class="result-card bg-voice" id="voice_agent">
+        <h3>AI Voice Agent</h3>
+        <div class="value-box">Deflect repetitive calls and reduce customer wait times.</div>
+        <button class="restart-btn" onclick="restart()">Go back</button>
+    </div>
+
+    <div class="result-card bg-analytics" id="analytics_plus">
+        <h3>Analytics+</h3>
+        <div class="value-box">Unlock operational insights to continuously improve performance.</div>
+        <button class="restart-btn" onclick="restart()">Go back</button>
+    </div>
+
+</div>
+
+<script>
+    let currentViewId = 'q1';
+    let historyStack = [];
+
+    function nextQuestion(targetId, progress) {
+        historyStack.push(currentViewId);
+        document.getElementById(currentViewId).classList.remove('active');
+        currentViewId = targetId;
+        document.getElementById(targetId).classList.add('active');
+        document.getElementById('progressFill').style.width = progress + '%';
+        document.getElementById('backBtn').style.display = 'block';
+    }
+
+    function showResult(resultId) {
+        historyStack.push(currentViewId);
+        document.getElementById(currentViewId).classList.remove('active');
+        currentViewId = resultId;
+        document.getElementById(resultId).classList.add('active');
+        document.getElementById('progressFill').style.width = '100%';
+        document.getElementById('mainHeader').style.display = 'none';
+        document.getElementById('backBtn').style.display = 'none';
+    }
+
+    function goBack() {
+        if (!historyStack.length) return;
+        document.getElementById(currentViewId).classList.remove('active');
+        currentViewId = historyStack.pop();
+        document.getElementById(currentViewId).classList.add('active');
+        document.getElementById('progressFill').style.width = historyStack.length ? '50%' : '0%';
+        document.getElementById('backBtn').style.display = historyStack.length ? 'block' : 'none';
+        document.getElementById('mainHeader').style.display = 'block';
+    }
+
+    function restart() {
+        document.getElementById(currentViewId).classList.remove('active');
+        historyStack = [];
+        currentViewId = 'q1';
+        document.getElementById('q1').classList.add('active');
+        document.getElementById('progressFill').style.width = '0%';
+        document.getElementById('backBtn').style.display = 'none';
+        document.getElementById('mainHeader').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
