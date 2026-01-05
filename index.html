@@ -37,11 +37,13 @@
             color: #012635;
             font-size: 24px;
             font-weight: 700;
+            margin-bottom: 10px; /* more space */
         }
 
         .header p {
             color: #666;
             font-size: 15px;
+            line-height: 1.4;
         }
 
         .progress-bar {
@@ -59,7 +61,12 @@
             transition: width 0.4s ease;
         }
 
-        .question-card { display: none; flex-grow: 1; }
+        .question-card {
+            display: none;
+            flex-grow: 1;
+            padding-top: 30px; /* lowers question copy */
+        }
+
         .question-card.active { display: block; }
 
         .question-card h3 {
@@ -146,7 +153,7 @@
 
     <div class="header" id="mainHeader">
         <h1>Find Your Aircall Solution</h1>
-        <p>Select your biggest operational challenge</p>
+        <p>Select your biggest challenge to understand how Aircall can help</p>
     </div>
 
     <div class="progress-bar">
